@@ -1,7 +1,7 @@
 
 /******************************************************************
  *
- *   YOUR NAME / SECTION NUMBER
+ *   Luciana Pinel / 002
  *
  *   Note, additional comments provided throughout this source code
  *   is for educational purposes
@@ -152,7 +152,16 @@ class PriorityQueue<E, P> {
     public Node add(E e, P priority) {
 
         // YOUR CODE GOES HERE
-        return null;
+        // Create a new node with correct index (end of array)
+        Node newNode = new Node(e, priority, tree.size());
+
+        // Insert as rightmost leaf
+        tree.add(newNode);
+
+        // Restore min-heap ordering
+        pullUp(newNode.idx);
+
+        return newNode;
     }
 
 
@@ -169,6 +178,12 @@ class PriorityQueue<E, P> {
     public boolean contains(E e) {
 
         // ADD YOUR CODE HERE
+        // Linear scan (heap has no faster search)
+        for (Node node : tree) {
+            if (node.value.equals(e)) {
+                return true;
+            }
+        }
         return false;
     }
 

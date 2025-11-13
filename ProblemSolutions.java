@@ -1,7 +1,7 @@
 
 /******************************************************************
  *
- *   YOUR NAME / SECTION NUMBER
+ *   Luciana Pinel / 002
  *
  *   This java file contains the problem solutions for the methods lastBoulder,
  *   showDuplicates, and pair methods. You should utilize the Java Collection
@@ -67,8 +67,23 @@ public class ProblemSolutions {
 
       //
       // ADD YOUR CODE HERE - DO NOT FORGET TO ADD YOUR NAME / SECTION # ABOVE
-      //
-      return -1;
+      // Max-heap using reverse order comparator
+      PriorityQueue<Integer> pq = new PriorityQueue<>(Collections.reverseOrder());
+
+      for (int b : boulders) {
+          pq.add(b);
+      }
+
+      while (pq.size() > 1) {
+          int y = pq.poll();   // heaviest
+          int x = pq.poll();   // second heaviest
+
+          if (y != x) {
+              pq.add(y - x);
+          }
+      }
+
+      return pq.isEmpty() ? 0 : pq.peek();
   }
 
 
@@ -93,8 +108,26 @@ public class ProblemSolutions {
 
         //
         //  YOUR CODE GOES HERE
-        //
-        return new ArrayList<>();  // Make sure result is sorted in ascending order
+        HashMap<String, Integer> count = new HashMap<>();
+
+        // Count occurrences
+        for (String s : input) {
+            count.put(s, count.getOrDefault(s, 0) + 1);
+        }
+
+        ArrayList<String> result = new ArrayList<>();
+
+        // Collect strings appearing ≥ 2 times
+        for (String key : count.keySet()) {
+            if (count.get(key) > 1) {
+                result.add(key);
+            }
+        }
+
+        // Sort alphabetically (ascending)
+        Collections.sort(result);
+
+        return result;
 
     }
 
@@ -133,7 +166,26 @@ public class ProblemSolutions {
 
         //
         //  YOUR CODE GOES HERE
-        //
-        return new ArrayList<>();  // Make sure returned lists is sorted as indicated above
+        HashSet<Integer> seen = new HashSet<>();
+        HashSet<String> pairs = new HashSet<>();
+
+        for (int num : input) {
+            int target = k - num;
+
+            if (seen.contains(target)) {
+                int a = Math.min(num, target);
+                int b = Math.max(num, target);
+                pairs.add("(" + a + ", " + b + ")");
+            }
+
+            seen.add(num);
+        }
+
+        ArrayList<String> result = new ArrayList<>(pairs);
+
+        // Sort pairs lexicographically for stable ascending order
+        Collections.sort(result);
+
+        return result;
     }
 }
